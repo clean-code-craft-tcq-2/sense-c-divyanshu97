@@ -2,6 +2,8 @@
 
 struct Stats compute_statistics(const float* numberset, int setlength) {
     struct Stats s;
+    int i;
+    float total;
     s.average = 0;
     s.min = 0;
     s.max = 0;
@@ -25,7 +27,7 @@ struct Stats compute_statistics(const float* numberset, int setlength) {
     			s.min = numberset[setlength];
     		}
     	}
-    	s.average = total / setlength;
+    	s.average = total / (1.0 * setlength);
     }
     return s;
 }
