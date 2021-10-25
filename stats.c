@@ -1,35 +1,38 @@
 #include "stats.h"
 #include <math.h>
 
+int emailAlertCallCount = 0;
+int ledAlertCallCount = 0;
+
 struct Stats compute_statistics(const float* numberset, int setlength) {
-    struct Stats s;
-    int i;
+    struct Stats returnStats;
+    int loopCntr;
     float total = 0;
     if(setlength<=0)
     {
-    	s.average = NAN;
-    	s.max = NAN;
-    	s.min = NAN;
+    	returnStats.average = NAN;
+    	returnStats.max = NAN;
+    	returnStats.min = NAN;
     }
     else
     {
-        s.max = numberset[0];
-        s.min = numberset[0];
-    	for(i=0;i<setlength;i++)
+        returnStats.max = numberset[0];
+        returnStats.min = numberset[0];
+    	for(loopCntr=0;loopCntr<setlength;loopCntr++)
     	{
-    		total += numberset[i];
-    		if(s.max < numberset[i])
+    		total += numberset[loopCntr];
+    		if(returnStats.max < numberset[loopCntr])
     		{
-    			s.max = numberset[i];
+    			returnStats.max = numberset[loopCntr];
     		}
-    		else if(s.min > numberset[i])
+    		else if(returnStats.min > numberset[loopCntr])
     		{
-    			s.min = numberset[i];
+    			returnStats.min = numberset[loopCntr];
     		}
     	}
-    	s.average = total / (1.0 * setlength);
+    	returnStats.average = total / (1.0 * setlength);
     }
-    return s;
+    return returnStats;
 }
 
 
@@ -41,6 +44,3 @@ void check_and_alert(float maxThreshold, alerter_funcptr alerters[], struct Stat
 		alerters[1]();
 	}
 }
-
-int emailAlertCallCount = 0;
-int ledAlertCallCount = 0;
